@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizzler_flutter/quiz_brain.dart';
 
 void main() => runApp(const Quizzler());
 
@@ -32,13 +33,18 @@ class _QuizPageState extends State<QuizPage> {
   // List to keep track of the scores
   List<Widget> scoreKeeper = [];
 
-  List<String> questions = [
-    'You can lead a cow down stairs but not up stairs.',
-    'Approximately one quarter of human bones are in the feet.',
-    'A slug\'s blood is green.'
-  ];
+  // List<String> questions = [
+  //   'You can lead a cow down stairs but not up stairs.',
+  //   'Approximately one quarter of human bones are in the feet.',
+  //   'A slug\'s blood is green.'
+  // ];
+  //
+  // List<bool> answers = [false, true, true];
+  //
+  // Question q1 = Question(
+  //     q: 'You can lead a cow down stairs but not up stairs.', a: false);
 
-  int questionNumber = 0;
+  QuizBrain quizBrain = QuizBrain();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +58,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: const EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questions[0],
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 25.0,
@@ -75,6 +81,15 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked true.
+                bool correctAns = quizBrain.getQuestionAnswer();
+                if (correctAns == true) {
+                  print('Right Answer');
+                } else {
+                  print('Wrong');
+                }
+                setState(() {
+                  quizBrain.nextQuestion();
+                });
               },
             ),
           ),
@@ -90,7 +105,17 @@ class _QuizPageState extends State<QuizPage> {
                   color: Colors.white,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                bool correctAns = quizBrain.getQuestionAnswer();
+                if (correctAns == false) {
+                  print('Right Answer');
+                } else {
+                  print('Wrong');
+                }
+                setState(() {
+                  quizBrain.nextQuestion();
+                });
+              },
             ),
           ),
         ),
